@@ -1,3 +1,2 @@
-# hexaminer:
+# hexaminer®
 ### thoughtful digital data exploration
-
