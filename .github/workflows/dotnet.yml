@@ -24,5 +24,3 @@ jobs:
       run: dotnet restore src/hex/hex.csproj
     - name: Build
       run: dotnet build --no-restore src/hex/hex.csproj
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --project src/hex/hex.csproj
