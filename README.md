@@ -25,7 +25,7 @@ A powerful data exploitation and visualization tool designed for digital forensi
 ## Installation
 
 ### Prerequisites
-- .NET 9.0 or later (preview versions supported)
+- .NET 10.0 or later (preview versions supported)
 - Windows, macOS, or Linux
 
 ### Build from Source
@@ -50,7 +50,7 @@ dotnet run --project src/hex -- analyze large-disk-image.dd
 
 ### Basic File Analysis
 ```bash
-# Analyze a file and detect its format (reads first 64KB for analysis)
+# Analyze a file and detect its format (reads first 10MB for analysis)
 dotnet run --project src/hex -- analyze suspicious.exe
 
 # Verbose analysis with detailed structure information
@@ -77,7 +77,7 @@ dotnet run --project src/hex -- dump --offset 0x100000 --length 256 huge-file.bi
 
 ### Pattern Detection
 ```bash
-# Find all interesting patterns (analyzes first 10MB for performance)
+# Find all interesting patterns (analyzes up to 100MB for performance)
 dotnet run --project src/hex -- patterns --all evidence.raw
 
 # Search for specific pattern types
@@ -104,17 +104,17 @@ Hexaminer is optimized for forensic workflows involving large files and disk ima
 ### Memory Optimization
 - **Streaming Analysis**: No file size limits - analyze TB+ files without loading into memory
 - **Smart Chunking**: Reads only necessary data for each operation
-- **Configurable Limits**: 
-  - Analysis: 64KB (sufficient for file headers and signatures)
-  - Pattern Scanning: 10MB (with progress notification for larger files)
+- **Configurable Limits**:
+  - Analysis: 10MB max (sufficient for thorough header and structure analysis)
+  - Pattern Scanning: 100MB max (with progress notification for larger files)
   - Hex Dumps: User-specified ranges only
 
 ### Performance Characteristics
 ```bash
 # These operations use minimal memory regardless of file size:
-dotnet run --project src/hex -- analyze 500GB-disk-image.dd     # Uses ~64KB RAM
-dotnet run --project src/hex -- dump --length 1024 huge.bin    # Uses ~1KB RAM
-dotnet run --project src/hex -- patterns --all large-file.bin  # Uses ~10MB RAM
+dotnet run --project src/hex -- analyze 500GB-disk-image.dd     # Uses ~10MB RAM max
+dotnet run --project src/hex -- dump --length 1024 huge.bin     # Uses ~1KB RAM
+dotnet run --project src/hex -- patterns --all large-file.bin   # Uses ~100MB RAM max
 ```
 
 ### Supported File Sizes
@@ -252,11 +252,18 @@ We welcome contributions from the digital forensics and security research commun
 
 Licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
+## Technical Stack
+
+- **Framework**: .NET 10.0 (supports .NET 10.0+)
+- **CLI Library**: System.CommandLine 2.0.1 (stable release)
+- **JSON Processing**: Newtonsoft.Json for serialization and export
+- **Binary Parsing**: Custom HexBinaryReader with endian-aware operations
+
 ## Acknowledgments
 
-- Built with .NET 9 and System.CommandLine for modern CLI experience
-- Inspired by classic hex editors and forensic analysis tools
+- Inspired by classic hex editors and forensic analysis tools like HxD, 010 Editor, and Hex Fiend
 - Large file handling improvements enable analysis of modern disk images and AI model files
+- Plugin architecture designed for extensibility and community contributions
 
 ---
 
